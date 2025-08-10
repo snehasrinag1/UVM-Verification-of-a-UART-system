@@ -417,6 +417,7 @@ endclass
         
         initial begin
           uvm_config_db#(virtual clk_if)::set(null,"*","cif",cif);
+			run_test("test");
         end
       
         initial begin
