@@ -3,13 +3,13 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 08/09/2025 05:58:56 PM
+// Create Date: 08/09/2025 06:15:28 PM
 // Design Name: 
 // Module Name: tb_uart_baud
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
-// Description: Verification of a UART clock generator for different BAUD rate
+// Description: 
 // 
 // Dependencies: 
 // 
@@ -18,89 +18,11 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-module clk_gen(
-input clk, rst,
-input [16:0] baud,
-output  tx_clk
-);
-  
-  
-reg  t_clk = 0;
-int  tx_max = 0;
-int  tx_count = 0;
-//////////////////////////////////////////////
- 
-always@(posedge clk) begin 
-		if(rst)begin
-			tx_max <= 0;	
-			end
-		else begin 		
-			case(baud)
-				4800 :	begin
-						  tx_max <=14'd10416;	//10418
-			            end
-				9600  : begin
-						  tx_max <=14'd5208;
-				    	end
-				14400 : begin 
-						  tx_max <=14'd3472;
-						 end
-				19200 : begin 
-						  tx_max <=14'd2604;
-						end
-				38400: begin
-						  tx_max <=14'd1302;
-						end
-				57600 : begin 
-						  tx_max <=14'd868;	
-						end 						
-				 default: begin 
-						  tx_max <=14'd5208;	
-						 end
-			endcase
-		end
-	end
- 
-///////////////////////////////////////////
- 
- 
-always@(posedge clk)
-begin
- if(rst) 
-   begin
-     tx_count <= 0;
-     t_clk    <= 0;
-   end
- else 
- begin
-   if(tx_count < tx_max/2)
-       begin
-         tx_count <= tx_count + 1;
-       end
-    else 
-       begin
-        t_clk   <= ~t_clk;
-        tx_count <= 0;
-       end
- end
-end
 
-/////////////////////////////////////////////////////
-  assign tx_clk = t_clk;
-endmodule
- 
- 
-////////////////////////////////////////////////////////////////////////
- 
-interface clk_if;
-logic clk, rst;
-logic [16:0] baud;
-logic tx_clk;
-endinterface
- 
- //UVM TESTBENCH
- 
- `include "uvm_macros.svh"
+
+//UVM Testbench 
+
+`include "uvm_macros.svh"
 import uvm_pkg::*;
 
 typedef enum bit [1:0] {reset_assert =0 , random_baud =1}oper_mode;
@@ -403,7 +325,7 @@ endclass
           endtask
         endclass
         
-      module tb_uart_baud;
+    module tb_uart_baud;
         
         clk_if cif();
         
@@ -417,7 +339,6 @@ endclass
         
         initial begin
           uvm_config_db#(virtual clk_if)::set(null,"*","cif",cif);
-			run_test("test");
         end
       
         initial begin
@@ -428,6 +349,57 @@ endclass
   
 endmodule
             
- 
+            
+              
+              
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+           
+  
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+ 
 
